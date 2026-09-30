@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>udn部落格 - 網路城邦</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Noto Sans TC & Noto Serif TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        udn: {
+                            orange: '#F39800',
+                            blue: '#004B97',
+                            darkblue: '#003366',
+                            red: '#D32F2F',
+                            bg: '#F8FAFC',
+                            card: '#FFFFFF',
+                            text: '#1E293B',
+                            muted: '#64748B',
+                            border: '#E2E8F0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                        serif: ['Noto Serif TC', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+            -webkit-font-smoothing: antialiased;
+        }
+        .line-clamp-1 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            
+            <!-- Logo Section -->
+            <a href="https://blog.udn.com/" class="flex items-center space-x-2.5 group shrink-0">
+                <div class="w-11 h-11 bg-[#F39800] rounded-xl flex items-center justify-center shadow-md p-1.5 group-hover:scale-105 transition-transform shrink-0">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <rect x="12" y="12" width="76" height="76" rx="22" ry="22" fill="#FFFFFF" />
+                        <rect x="33" y="32" width="9" height="26" rx="4.5" fill="#1E293B" />
+                        <rect x="58" y="32" width="9" height="26" rx="4.5" fill="#1E293B" />
+                        <path d="M 40 64 A 10 10 0 0 0 60 64 Z" fill="#1E293B" />
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-baseline space-x-1">
+                        <span class="text-3xl font-black text-[#004B97] tracking-tight group-hover:text-amber-600 transition">部</span>
+                        <span class="text-3xl font-black text-[#004B97] tracking-tight group-hover:text-amber-600 transition">落</span>
+                        <span class="text-3xl font-black text-[#004B97] tracking-tight group-hover:text-amber-600 transition">格</span>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 tracking-wider font-mono">blog.udn.com</span>
+                </div>
+            </a>
+
+            <!-- Right Icon Group (FB, Post, User, Search Icon) -->
+            <div class="flex items-center space-x-1 sm:space-x-2 text-slate-600 shrink-0">
+                <a href="https://facebook.com" target="_blank" title="Facebook 專頁" class="hover:text-udn-blue transition text-xl sm:text-2xl p-2 hover:bg-slate-100 rounded-xl">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                
+                <a href="#" title="發表文章" class="hover:text-udn-blue transition text-xl sm:text-2xl p-2 hover:bg-slate-100 rounded-xl">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </a>
+
+                <!-- User Account Dropdown Trigger -->
+                <div class="relative">
+                    <button type="button" onclick="toggleDropdown('userMenu', event)" class="hover:text-udn-blue hover:bg-amber-50/80 transition text-xl sm:text-2xl p-2 rounded-xl flex items-center gap-1 focus:outline-none border border-transparent hover:border-amber-200" title="會員選單">
+                        <i class="fa-regular fa-user"></i>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                    </button>
+                    <!-- User Dropdown Menu -->
+                    <div id="userMenu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200/90 py-2 z-50 text-xs sm:text-sm font-semibold text-slate-700 divide-y divide-slate-100 animate-fadeIn">
+                        <div class="px-4 py-3 bg-gradient-to-r from-amber-50 to-orange-50/60 rounded-t-xl border-b border-amber-100/80 flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] text-amber-700 font-bold uppercase tracking-wider">udn Member Center</p>
+                                <p class="font-black text-slate-900 truncate text-sm">會員服務中心</p>
+                            </div>
+                            <span class="w-9 h-9 rounded-full bg-udn-orange/15 text-udn-orange flex items-center justify-center text-sm font-bold shadow-inner">
+                                <i class="fa-solid fa-user-gear"></i>
+                            </span>
+                        </div>
+                        <div class="py-1.5">
+                            <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50 hover:text-udn-orange transition font-bold text-slate-800">
+                                <i class="fa-solid fa-right-to-bracket text-udn-blue text-sm w-4"></i> 會員登入 / 免費註冊
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50 hover:text-udn-orange transition font-bold text-slate-800">
+                                <i class="fa-regular fa-pen-to-square text-udn-blue text-sm w-4"></i> 發表新文章 / 網誌
+                            </a>
+                        </div>
+                        <div class="py-1.5">
+                            <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50 hover:text-udn-orange transition text-slate-600">
+                                <i class="fa-solid fa-house-user text-slate-400 text-sm w-4"></i> 我的部落格管理後台
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50 hover:text-udn-orange transition text-slate-600">
+                                <i class="fa-regular fa-images text-slate-400 text-sm w-4"></i> 相簿相案管理中心
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50 hover:text-udn-orange transition text-slate-600">
+                                <i class="fa-solid fa-gear text-slate-400 text-sm w-4"></i> 個人帳號與安全性設定
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Dropdown Trigger (Placed to the right of Member) -->
+                <div class="relative">
+                    <button type="button" onclick="toggleDropdown('searchMenu', event)" class="hover:text-udn-blue hover:bg-slate-100 transition p-2 rounded-xl flex items-center justify-center focus:outline-none" title="搜尋">
+                        <svg class="w-6 h-6 text-slate-600 hover:text-udn-blue transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="7" x2="10" y2="7"></line>
+                            <line x1="3" y1="12" x2="8" y2="12"></line>
+                            <line x1="3" y1="17" x2="13" y2="17"></line>
+                            <circle cx="15" cy="11" r="4.2"></circle>
+                            <line x1="18" y1="14" x2="21" y2="17"></line>
+                        </svg>
+                    </button>
+
+                    <!-- Search Input Popup Menu -->
+                    <div id="searchMenu" class="hidden absolute right-0 top-full mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 p-3 z-50 animate-fadeIn">
+                        <form action="#" method="GET" class="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-white focus-within:ring-2 focus-within:ring-udn-orange/50 transition">
+                            <input type="text" name="q" placeholder="請輸入關鍵字搜尋..." class="w-full px-3 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none font-medium">
+                            <button type="submit" class="bg-[#F39800] hover:bg-amber-600 text-white font-bold px-4 py-2 text-xs sm:text-sm flex items-center gap-1 shrink-0 transition">
+                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bg-slate-900 text-white border-t border-slate-800 text-sm font-semibold relative z-40">
+            <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+                <div class="flex items-center space-x-1 sm:space-x-2 py-1 overflow-visible">
+                    
+                    <!-- 1. 文章排行榜 下拉選單 -->
+                    <div class="relative shrink-0">
+                        <button type="button" onclick="toggleDropdown('rankArticleMenu', event)" class="px-3 py-2 hover:bg-slate-800 rounded-lg text-amber-300 font-bold flex items-center gap-1.5 focus:outline-none transition">
+                            <i class="fa-solid fa-newspaper text-xs text-amber-400"></i>
+                            <span>文章排行榜</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-amber-400"></i>
+                        </button>
+
+                        <div id="rankArticleMenu" class="hidden absolute left-0 top-full mt-1 w-44 bg-white text-slate-800 rounded-xl shadow-2xl border border-slate-200 py-2 z-50 text-xs sm:text-sm font-bold animate-fadeIn">
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最新推薦</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多推薦</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多瀏覽</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多回應</a>
+                        </div>
+                    </div>
+
+                    <!-- 2. 部落格排行榜 下拉選單 -->
+                    <div class="relative shrink-0">
+                        <button type="button" onclick="toggleDropdown('rankBlogMenu', event)" class="px-3 py-2 hover:bg-slate-800 rounded-lg text-amber-300 font-bold flex items-center gap-1.5 focus:outline-none transition">
+                            <i class="fa-solid fa-blog text-xs text-amber-400"></i>
+                            <span>部落格排行榜</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-amber-400"></i>
+                        </button>
+
+                        <div id="rankBlogMenu" class="hidden absolute left-0 top-full mt-1 w-44 bg-white text-slate-800 rounded-xl shadow-2xl border border-slate-200 py-2 z-50 text-xs sm:text-sm font-bold animate-fadeIn">
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最新推薦</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多推薦</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多瀏覽</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多回應</a>
+                        </div>
+                    </div>
+
+                    <!-- 3. 相片排行榜 下拉選單 -->
+                    <div class="relative shrink-0">
+                        <button type="button" onclick="toggleDropdown('rankPhotoMenu', event)" class="px-3 py-2 hover:bg-slate-800 rounded-lg text-amber-300 font-bold flex items-center gap-1.5 focus:outline-none transition">
+                            <i class="fa-regular fa-image text-xs text-amber-400"></i>
+                            <span>相片排行榜</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-amber-400"></i>
+                        </button>
+
+                        <div id="rankPhotoMenu" class="hidden absolute left-0 top-full mt-1 w-44 bg-white text-slate-800 rounded-xl shadow-2xl border border-slate-200 py-2 z-50 text-xs sm:text-sm font-bold animate-fadeIn">
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最新推薦</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多推薦</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多瀏覽</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-amber-50 hover:text-udn-orange transition">最多回應</a>
+                        </div>
+                    </div>
+
+                    <div class="h-4 w-[1px] bg-slate-700 mx-1 shrink-0"></div>
+
+                    <!-- Direct Navigation Links -->
+                    <a href="#" class="px-3 py-2 hover:bg-slate-800 rounded-lg transition hover:text-amber-300 shrink-0">電小二專區</a>
+                    <a href="#" class="px-3 py-2 hover:bg-slate-800 rounded-lg transition hover:text-amber-300 shrink-0">網路城邦辦公室</a>
+                    <a href="#" class="px-3 py-2 hover:bg-slate-800 rounded-lg transition hover:text-amber-300 shrink-0">常見問題</a>
+                </div>
+
+                <div class="text-xs text-slate-400 font-normal hidden lg:block shrink-0 pl-2">
+                    <i class="fa-solid fa-heart text-red-500 mr-1"></i> 熱門：#宜蘭秘境 #澎湃海鮮
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-amber-500/10 border-b border-amber-200/80 py-2.5">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between text-sm sm:text-base">
+            <div class="flex items-center space-x-3 w-full overflow-hidden">
+                <span class="bg-udn-orange text-white font-black px-3 py-1 rounded-md shrink-0 flex items-center gap-1.5 text-sm shadow-sm">
+                    <i class="fa-solid fa-bullhorn text-sm"></i> Event
+                </span>
+                <div class="overflow-hidden relative w-full h-7 flex items-center">
+                    <div id="eventTicker" class="absolute whitespace-nowrap text-slate-800 font-semibold transition-all duration-500 flex items-center space-x-2 text-sm sm:text-base">
+                        <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded font-bold">重點通知</span>
+                        <a href="#" class="hover:text-udn-blue hover:underline">【活動】夏日萬物采風攝影大賽熱烈徵件中，總獎金破萬元！</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-12 flex-grow">
+
+        <!-- 精選推薦專題 -->
+        <section class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-3.5 h-8 bg-udn-blue rounded-full"></div>
+                    <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                        精選推薦專題
+                    </h2>
+                </div>
+                <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1 text-xl font-bold" id="featuredTabs">
+                    <button onclick="switchEditorialTab(0)" class="editorial-tab px-5 py-2.5 rounded-xl bg-udn-blue text-white shadow-sm transition shrink-0 text-xl font-black">宜蘭旅行</button>
+                    <button onclick="switchEditorialTab(1)" class="editorial-tab px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition shrink-0 text-xl font-bold">澎湃海鮮</button>
+                    <button onclick="switchEditorialTab(2)" class="editorial-tab px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition shrink-0 text-xl font-bold">山海步道</button>
+                    <button onclick="switchEditorialTab(3)" class="editorial-tab px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition shrink-0 text-xl font-bold">藝遊世界</button>
+                    <button onclick="switchEditorialTab(4)" class="editorial-tab px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition shrink-0 text-xl font-bold">美味美食</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-5 flex flex-col justify-center">
+                    <div class="relative rounded-2xl overflow-hidden aspect-[3/2] bg-slate-100 shadow-md group w-full border border-slate-200">
+                        <img id="editorialCarouselImg" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80" alt="Editorial Showcase" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-5 flex flex-col justify-end">
+                            <h3 id="editorialCarouselTitle" class="text-white text-xl md:text-2xl font-black leading-snug line-clamp-2 hover:text-amber-300 transition cursor-pointer drop-shadow">
+                                宜蘭必訪秘境！蘇東隧道紫光點亮奇幻3D海底世界
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-3">
+                    <div id="editorialLinks" class="space-y-3">
+                        <!-- Populated dynamically via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+            <!-- Left 2 Cols: 主題Blogs (Enlarged Headings, Clean Line Style) -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Main Enlarged Section Title matching 精選推薦專題 -->
+                <div class="flex items-center space-x-3 py-1">
+                    <div class="w-3.5 h-8 bg-udn-blue rounded-full"></div>
+                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+                        主題 Blogs
+                    </h2>
+                </div>
+
+                <!-- Columnist Magazine Grid Container -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm space-y-8">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+                        
+                        <!-- Column 1: 大媒體 / 政治異言堂 / 作家沙龍 -->
+                        <div class="space-y-10 pr-0 md:pr-4">
+                            
+                            <!-- 1. 大媒體 (Removed "Blogs", Kept in 1 line) -->
+                            <div class="space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-newspaper text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">大媒體</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">MEDIA</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=500&q=80" alt="Media" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            數位媒體浪潮下：深度新聞報導與專業觀點評析
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 聯合報系特派記者現場觀點隨筆：解析全球脈動與國際局勢觀察
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 全球國際新聞趨勢分析與即時解讀：探索新傳播時代的媒體責任
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 數位時代下的媒體轉型與新聞倫理：AI對新聞寫作與真實性的衝擊
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 專題訪談：資深媒體人的採訪手記與歷史瞬間第一線紀錄
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 2. 政治異言堂 (Kept in 1 line) -->
+                            <div class="pt-8 border-t-2 border-slate-200/80 space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-landmark text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">政治異言堂</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">POLITICS</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=500&q=80" alt="Politics" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            公民社會與時事政論：多角化政策議題理性對話
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 地緣政治與台海局勢深度專欄：解析東亞防禦體系與國際戰略
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 公共政策與地方治理實務討論：從都市更新到社會住宅政策全面剖析
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 國會法案動向與公民監督評析：推動透明法案立法過程之思辯
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 國際外交角力與經濟戰略觀察：全球供應鏈重組下台灣的挑戰與機會
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 3. 作家沙龍 (Kept in 1 line) -->
+                            <div class="pt-8 border-t-2 border-slate-200/80 space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-feather-pointed text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">作家沙龍</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">WRITERS</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=500&q=80" alt="Writer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            文字裡的微光與墨香：駐站作家專欄與散文集錦
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 當代文壇名家最新創作隨筆：走過歲月長河的文字溫暖與生命體悟
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 詩歌與小說創作手稿分享專區：探索心靈角落最深層的感動與共鳴
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 文學經典導讀與名家書評解析：穿梭古今文字世界的精彩閱讀之旅
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 靜夜筆耕手記：在字裡行間尋找自我，描繪日常生活裡的微光紀錄
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Column 2: 麻辣鮮師 / 大手牽小手 / 美食達人 -->
+                        <div class="space-y-10 pt-8 md:pt-0 pl-0 md:pl-4 pr-0 md:pr-4">
+                            
+                            <!-- 4. 麻辣鮮師 (Kept in 1 line) -->
+                            <div class="space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-chalkboard-user text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">麻辣鮮師</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">EDU</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=500&q=80" alt="Teacher" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            翻轉教育與講台記事：第一線教師教學心得與成長
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 班級經營與師生溝通實務案例：用心傾聽建立正向尊重的校園氛圍
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 創新教案設計與數位教學工具應用：激發孩子自主學習樂趣的秘密
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 跨領域閱讀素養推廣實踐經驗：培養孩子邏輯思維與問題解決能力
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 陪伴青少年成長的溫暖講台手記：點亮迷茫青春歲月的明燈
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 5. 大手牽小手 (Kept in 1 line) -->
+                            <div class="pt-8 border-t-2 border-slate-200/80 space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-hands-holding-child text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">大手牽小手</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">FAMILY</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=500&q=80" alt="Parenting" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            陪伴成長的溫暖時光：育兒日記與教養智慧紀錄
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 兒童情緒引導與繪本共讀指南：陪伴孩子建立同理心與安全感
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 全台熱門親子戶外公園與景點推薦：週末放電與大自然接觸全攻略
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 幼兒健康飲食與營養餐點動手做：簡單易學的色香味俱全兒童食譜
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 親子雙向溝通技巧：建構正向家庭關係與互信愛的語言
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 6. 美食達人 (Kept in 1 line) -->
+                            <div class="pt-8 border-t-2 border-slate-200/80 space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-utensils text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">美食達人</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">FOOD</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=500&q=80" alt="Food" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            嚴選巷弄美味與星級饗宴：資深老饕私房口袋名單
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 米其林必比登老字號牛肉麵巡禮：濃郁湯頭與軟嫩牛肉的極致口感
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 職人手作法式甜點與深夜咖啡體驗：微醺巷弄裡的最美甜品地圖
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 隱藏版深夜食堂：無菜單熱炒與正宗日式拉麵老饕私房評測
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 異國美食探訪：正宗義式窯烤披薩與泰式酸辣道地料理精選
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Column 3: 旅人部落 / 好攝一族 / 影劇達人 -->
+                        <div class="space-y-10 pt-8 md:pt-0 pl-0 md:pl-4">
+                            
+                            <!-- 7. 旅人部落 (Kept in 1 line) -->
+                            <div class="space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-plane-departure text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">旅人部落</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">TRAVEL</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=500&q=80" alt="Travel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            踏遍山海與世界角落：異國文化與國內深度旅遊誌
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 日本京都古都秘境與楓葉步道散策：浪漫秋日下的古剎歷史之旅
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 台灣高山脊線縱走與壯麗雲海景致：百岳步道探索與戶外營地指南
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 歐洲小鎮自由行必看景點與交通攻略：感受人文建築與浪漫異國風情
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 獨自旅行手記：在陌生的街道上與自己對話，尋找內心的寧靜
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 8. 好攝一族 (Kept in 1 line) -->
+                            <div class="pt-8 border-t-2 border-slate-200/80 space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-camera text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">好攝一族</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">PHOTO</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=500&q=80" alt="Photo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            快門捕捉的光影美學：自然風光與人文紀實影像
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 城市夜景長曝光與璀璨星軌合成心法：新手必學夜間攝影構圖技巧
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 微距攝影下的自然生態美學探索：紀錄昆蟲與植物靈動的瞬間
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 人像攝影構圖與自然光調校實務：打造具情緒渲染力的光影寫真
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 舊底片膠卷質感紀實：行走在舊街區裡的人文溫暖與光影故事
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 9. 影劇達人 (Kept in 1 line) -->
+                            <div class="pt-8 border-t-2 border-slate-200/80 space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3.5">
+                                    <div class="border-b-4 border-slate-900 pb-2 flex items-center justify-between">
+                                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2 whitespace-nowrap">
+                                            <i class="fa-solid fa-film text-udn-blue text-lg sm:text-xl shrink-0"></i> 
+                                            <span class="truncate">影劇達人</span>
+                                        </h3>
+                                        <span class="text-xs font-mono text-slate-400 font-bold shrink-0 ml-1">MOVIE</span>
+                                    </div>
+                                    <a href="#" class="group space-y-2 block">
+                                        <div class="aspect-[3/2] rounded-xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+                                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=500&q=80" alt="Drama" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <h4 class="font-black text-slate-900 text-lg sm:text-xl leading-snug group-hover:text-udn-blue transition line-clamp-2 pt-1">
+                                            光影世界與劇作解析：熱門電影影評與劇集推薦
+                                        </h4>
+                                    </a>
+                                    
+                                    <ul class="space-y-3 pt-2 text-slate-700">
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 奧斯卡金像獎最佳影片深度劇透點評：角色心理與鏡頭語言全方位解析
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 經典台劇與日劇編劇鏡頭語言解析：細品台詞隱喻與時代記憶
+                                            </a>
+                                        </li>
+                                        <li class="border-b border-slate-100 pb-2">
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 串流平台年度必看黑馬影集推薦清單：懸疑推理與高分追劇攻略
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="hover:text-udn-blue transition font-semibold text-sm sm:text-base leading-snug line-clamp-2 block group">
+                                                <span class="text-udn-orange font-bold mr-1">•</span> 電影配樂與視覺美學隨筆：原聲帶旋律如何喚醒心中的畫面與共鳴
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <a href="#" class="text-xs sm:text-sm font-bold text-udn-blue hover:text-amber-600 transition flex items-center gap-1 group">
+                                        瀏覽更多 <i class="fa-solid fa-angles-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <aside class="lg:col-span-1 space-y-6">
+
+                <!-- 1. 贊助廣告 (300x250) -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm space-y-3">
+                    <div class="flex justify-end border-b border-slate-100 pb-2">
+                        <span class="bg-[#EEF2F6] text-[#64748B] font-medium px-2.5 py-0.5 text-xs rounded">贊助廣告</span>
+                    </div>
+
+                    <div class="flex justify-center items-center py-1">
+                        <a href="#" class="block w-[300px] h-[250px] rounded-xl shadow-sm hover:shadow-md transition overflow-hidden group shrink-0">
+                            <img src="AD_3.jpg" alt="贊助廣告" class="w-[300px] h-[250px] object-cover rounded-xl group-hover:scale-105 transition-transform duration-300">
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 2. 新手上路指南 -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm space-y-3">
+                    <div class="flex items-center space-x-2 border-b border-slate-100 pb-3">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-udn-orange flex items-center justify-center font-bold text-base">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl">新手上路指南</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm sm:text-base font-bold text-slate-800">
+                        <li>
+                            <a href="#" class="flex items-center justify-between p-2 rounded-xl hover:bg-amber-50 hover:text-udn-orange transition group">
+                                <span class="flex items-center gap-2"><i class="fa-regular fa-circle-question text-amber-500 text-base"></i> Step 1. 快速建立 udn 部落格三步驟</span>
+                                <i class="fa-solid fa-angle-right text-xs text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center justify-between p-2 rounded-xl hover:bg-amber-50 hover:text-udn-orange transition group">
+                                <span class="flex items-center gap-2"><i class="fa-regular fa-pen-to-square text-amber-500 text-base"></i> Step 2. 發表文章與排版格式指引</span>
+                                <i class="fa-solid fa-angle-right text-xs text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center justify-between p-2 rounded-xl hover:bg-amber-50 hover:text-udn-orange transition group">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-sliders text-amber-500 text-base"></i> Step 3. 個人頭像與風格模版設定</span>
+                                <i class="fa-solid fa-angle-right text-xs text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center justify-between p-2 rounded-xl hover:bg-amber-50 hover:text-udn-orange transition group">
+                                <span class="flex items-center gap-2"><i class="fa-regular fa-images text-amber-500 text-base"></i> 相簿管理與相片批次上傳教學</span>
+                                <i class="fa-solid fa-angle-right text-xs text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center justify-between p-2 rounded-xl hover:bg-amber-50 hover:text-udn-orange transition group">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-amber-500 text-base"></i> 訪客簿互動與網路城邦社群規範</span>
+                                <i class="fa-solid fa-angle-right text-xs text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. 排行榜 (文章、部落格、相片排行榜) -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <h3 class="font-black font-serif text-slate-900 text-xl sm:text-2xl lg:text-3xl flex items-center gap-2">
+                            <i class="fa-solid fa-trophy text-amber-500 text-xl sm:text-2xl"></i> 發燒排行榜
+                        </h3>
+                    </div>
+
+                    <!-- Ranking Tab Buttons Bar -->
+                    <div class="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl text-sm sm:text-base font-bold w-full">
+                        <button id="tab-rank-article" onclick="switchRankingTab('article')" class="flex-1 py-1.5 px-2 rounded-lg transition text-center cursor-pointer">
+                            文章排行榜
+                        </button>
+                        <button id="tab-rank-blog" onclick="switchRankingTab('blog')" class="flex-1 py-1.5 px-2 rounded-lg transition text-center cursor-pointer">
+                            部落格排行榜
+                        </button>
+                        <button id="tab-rank-photo" onclick="switchRankingTab('photo')" class="flex-1 py-1.5 px-2 rounded-lg transition text-center cursor-pointer">
+                            相片排行榜
+                        </button>
+                    </div>
+
+                    <div id="rankingList" class="space-y-2.5">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- 4. 電小二沙龍入口 -->
+                <div class="bg-gradient-to-br from-amber-400/20 via-orange-400/10 to-amber-500/20 rounded-2xl p-5 border-2 border-amber-300/80 shadow-sm space-y-3.5 relative overflow-hidden group hover:shadow-md transition-all">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-[#F39800] rounded-xl flex items-center justify-center shadow-md p-1.5 shrink-0">
+                            <svg viewBox="0 0 100 100" class="w-full h-full">
+                                <rect x="12" y="12" width="76" height="76" rx="22" ry="22" fill="#FFFFFF" />
+                                <rect x="33" y="32" width="9" height="26" rx="4.5" fill="#1E293B" />
+                                <rect x="58" y="32" width="9" height="26" rx="4.5" fill="#1E293B" />
+                                <path d="M 40 64 A 10 10 0 0 0 60 64 Z" fill="#1E293B" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <h3 class="font-black text-slate-900 text-2xl">電小二沙龍</h3>
+                                <span class="bg-udn-orange text-white text-base px-2.5 py-0.5 rounded-full font-bold">官方駐站</span>
+                            </div>
+                            <p class="text-base text-slate-600 font-medium">創作交流 · 問題反饋 · 特選推廣</p>
+                        </div>
+                    </div>
+                    <p class="text-base text-slate-700 leading-relaxed bg-white/80 backdrop-blur-sm p-3 rounded-xl border border-amber-200/60">
+                        嗨！我是 udn部落格電小二。若有寫作疑難雜症或精彩文章欲推薦，歡迎至電小二部落格留言！
+                    </p>
+                    <div class="flex gap-2">
+                        <a href="https://blog.udn.com/udnheadquarter" target="_blank" class="flex-1 py-2.5 text-center text-base font-bold text-white bg-udn-blue hover:bg-udn-darkblue rounded-xl transition shadow-sm flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-bullhorn"></i> 造訪電小二
+                        </a>
+                        <a href="#" class="flex-1 py-2.5 text-center text-base font-bold text-slate-700 bg-white hover:bg-amber-50 rounded-xl border border-amber-300 transition shadow-sm flex items-center justify-center gap-1.5">
+                            <i class="fa-regular fa-envelope"></i> 發送私訊
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+    </main>
+
+    <footer class="bg-white text-slate-600 py-8 border-t border-slate-200 text-sm">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2.5">
+            <p class="font-medium text-slate-600 hover:text-slate-900 transition cursor-pointer">刊登廣告 │ FAQ．客服 │ 新聞授權 │ 服務條款．隱私權聲明 │ 聯合報系 │ 訂報紙 │ 關於我們 │ 網站總覽</p>
+            <p class="text-xs text-slate-400">聯合線上公司 著作權所有 ©2026 udn.com All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const editorialTopics = [
+            {
+                title: "宜蘭必訪秘境！蘇東隧道紫光點亮奇幻3D海底世界",
+                image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
+                links: [
+                    { title: "【宜蘭景點】蘇東隧道奇幻紫光燈彩，沈浸式3D海底壁畫彩繪" },
+                    { title: "礁溪溫泉秘境與跑馬古道一日遊攻略，感受幽靜山林綠意" },
+                    { title: "頭城老街美食巡禮：懷舊古厝與手作糕點深度體驗" },
+                    { title: "南方澳漁港現撈海鮮老店，鮮甜小卷與紅燒海魚老饕首選" },
+                    { title: "冬山河親水公園單車騎行，沿途欣賞黃金稻浪與美麗河畔" }
+                ]
+            },
+            {
+                title: "尚青尚讚！全台頂級澎湃海鮮盛宴與私房漁港地圖",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
+                links: [
+                    { title: "【基隆崁仔頂】深夜漁市場體驗！尚青現撈海鮮極致美味" },
+                    { title: "澎湖清蒸花蟹與海膽炒飯：夏季離島必吃海鮮巡禮" },
+                    { title: "無招牌無菜單！卓仔魚店海鮮原味征服老饕味蕾" },
+                    { title: "東港櫻花蝦與黑鮪魚生魚片，入口即化的極致鮮甜" },
+                    { title: "富基漁港現挑代客料理，大嗑蒜泥龍蝦與奶油螃蟹" }
+                ]
+            },
+            {
+                title: "踏青漫步去！精選全台北中南壯麗山海步道與森林浴",
+                image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=900&q=80",
+                links: [
+                    { title: "【鼻頭角步道】漫步台版萬里長城，360度絕美海天一色無敵海景" },
+                    { title: "阿里山特富野古道：穿梭千年紅檜巨木群與舊鐵道懷舊之旅" },
+                    { title: "合歡山北峰圓葉杜鵑花海盛開！俯瞰中央山脈壯麗雲海" },
+                    { title: "大坑4號步道考驗腳力！圓木步道挑戰與壯闊稜線景緻" },
+                    { title: "墾丁龍坑生態保護區：珊瑚礁裙礁地形與湧浪壯觀景色" }
+                ]
+            },
+            {
+                title: "沉浸美學盛宴：漫步全球當代美術館與世界文化遺產",
+                image: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=900&q=80",
+                links: [
+                    { title: "【墨西哥】踏上普克之路！尋訪馬雅遺址建築與古老文明采風" },
+                    { title: "法國羅浮宮特展：文藝復興大師畫作與歷史光影漫談" },
+                    { title: "京都大原三千院：初夏綠苔與古剎靜謐，感受禪意美學" },
+                    { title: "台北市立美術館當代藝術展：數位時代下的科技與人性哲思" },
+                    { title: "直島地中美術館：安藤忠雄建築與自然光影的完美交響" }
+                ]
+            },
+            {
+                title: "尋味城市角落：巷弄隱藏版老字號與手作職人甜點",
+                image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80",
+                links: [
+                    { title: "【台北老街】迪化街七十年老店傳統糕餅，滿載歲月溫度的手作美味" },
+                    { title: "台南永樂市場排隊美食：牛肉湯、碗粿與香濃花生糖私房地圖" },
+                    { title: "隱身老宅的法式千層蛋糕與深夜單品手衝咖啡巡禮" },
+                    { title: "台中第二市場古早味傳統早餐：麻芛湯與香煎菜頭粿" },
+                    { title: "高雄鹽埕區老字號冰品：古早味八寶冰與香濃芋泥挫冰" }
+                ]
+            }
+        ];
+
+        function switchEditorialTab(index) {
+            const data = editorialTopics[index];
+            if (!data) return;
+
+            const imgEl = document.getElementById('editorialCarouselImg');
+            const titleEl = document.getElementById('editorialCarouselTitle');
+            if (imgEl) imgEl.src = data.image;
+            if (titleEl) titleEl.textContent = data.title;
+
+            const linksContainer = document.getElementById('editorialLinks');
+            if (linksContainer) {
+                linksContainer.innerHTML = data.links.map(link => `
+                    <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-200 group">
+                        <a href="#" class="font-bold text-slate-800 group-hover:text-udn-blue transition text-base md:text-lg line-clamp-1 flex-1">
+                            • ${link.title}
+                        </a>
+                    </div>
+                `).join('');
+            }
+
+            const tabs = document.querySelectorAll('#featuredTabs button');
+            tabs.forEach((tab, i) => {
+                if (i === index) {
+                    tab.className = "editorial-tab px-5 py-2.5 rounded-xl bg-udn-blue text-white shadow-sm transition shrink-0 text-xl font-black";
+                } else {
+                    tab.className = "editorial-tab px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition shrink-0 text-xl font-bold";
+                }
+            });
+        }
+
+        const blogRankings = [
+            { rank: 1, blogName: "言不及義的流浪癖", bloggerName: "Gloomy Bear", views: "1,248,900" },
+            { rank: 2, blogName: "端木豪的雲淡風輕", bloggerName: "端木豪", views: "982,310" },
+            { rank: 3, blogName: "花鼠妹的異想世界", bloggerName: "花鼠妹", views: "854,200" },
+            { rank: 4, blogName: "生活、印象，輕描淡寫", bloggerName: "兩本書", views: "720,150" },
+            { rank: 5, blogName: "大狗狂想曲", bloggerName: "PawPaw狗", views: "631,000" }
+        ];
+
+        const articleRankings = [
+            { rank: 1, name: "新北秘境三芝田心子水田倒映山色雲影", author: "端木豪", views: "20,618" },
+            { rank: 2, name: "墨西哥《猶加敦州》踏上普克之路尋訪馬雅遺址", author: "Gloomy Bear", views: "18,420" },
+            { rank: 3, name: "大原三千院初夏綠滿園｜漫步京都左京區", author: "花鼠妹", views: "15,900" },
+            { rank: 4, name: "無招牌無菜單！卓仔魚店海鮮原味征服老饕", author: "美食達人", views: "14,210" },
+            { rank: 5, name: "文學可以透過 AI 轉化成音樂嗎？詩歌對話", author: "星光筆耕者", views: "12,850" }
+        ];
+
+        const photoRankings = [
+            { rank: 1, name: "水田倒映天光雲影：三芝田心子晨光寫真", author: "端木豪", views: "8,920" },
+            { rank: 2, name: "合歡山杜鵑花海與壯麗高山雲海", author: "光影獵人", views: "7,450" },
+            { rank: 3, name: "京都大原三千院：初夏綠苔與古剎靜謐", author: "花鼠妹", views: "6,180" },
+            { rank: 4, name: "迪化街傳統老屋與漫步夕陽微光", author: "旅人部落", views: "5,320" },
+            { rank: 5, name: "蘇東隧道奇幻3D紫光海底世界燈光秀", author: "山海漫步者", views: "4,890" }
+        ];
+
+        function switchRankingTab(type) {
+            const articleBtn = document.getElementById('tab-rank-article');
+            const blogBtn = document.getElementById('tab-rank-blog');
+            const photoBtn = document.getElementById('tab-rank-photo');
+            const rankingList = document.getElementById('rankingList');
+
+            if (!rankingList) return;
+
+            const activeClass = "flex-1 py-1.5 px-2 rounded-lg bg-udn-blue text-white shadow-sm font-bold transition text-center cursor-pointer text-sm sm:text-base";
+            const inactiveClass = "flex-1 py-1.5 px-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold transition text-center cursor-pointer text-sm sm:text-base";
+
+            if (articleBtn) articleBtn.className = (type === 'article') ? activeClass : inactiveClass;
+            if (blogBtn) blogBtn.className = (type === 'blog') ? activeClass : inactiveClass;
+            if (photoBtn) photoBtn.className = (type === 'photo') ? activeClass : inactiveClass;
+
+            if (type === 'blog') {
+                rankingList.innerHTML = blogRankings.map(item => `
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
+                        <div class="flex items-center space-x-3 overflow-hidden">
+                            <span class="w-7 h-7 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-sm font-black flex items-center justify-center shrink-0">
+                                ${item.rank}
+                            </span>
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-slate-900 text-lg group-hover:text-udn-blue transition truncate">${item.blogName}</h4>
+                                <p class="text-base text-slate-500 truncate">格主：${item.bloggerName}</p>
+                            </div>
+                        </div>
+                        <span class="text-base text-slate-400 font-mono shrink-0 pl-1">${item.views} 瀏覽</span>
+                    </div>
+                `).join('');
+            } else if (type === 'photo') {
+                rankingList.innerHTML = photoRankings.map(item => `
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
+                        <div class="flex items-center space-x-3 overflow-hidden">
+                            <span class="w-7 h-7 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-sm font-black flex items-center justify-center shrink-0">
+                                ${item.rank}
+                            </span>
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-slate-900 text-lg group-hover:text-udn-blue transition truncate">${item.name}</h4>
+                                <p class="text-base text-slate-500 truncate">作者：${item.author}</p>
+                            </div>
+                        </div>
+                        <span class="text-base text-amber-600 font-bold shrink-0 pl-1"><i class="fa-solid fa-heart text-xs mr-0.5"></i>${item.views}</span>
+                    </div>
+                `).join('');
+            } else {
+                rankingList.innerHTML = articleRankings.map(item => `
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
+                        <div class="flex items-center space-x-3 overflow-hidden">
+                            <span class="w-7 h-7 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-sm font-black flex items-center justify-center shrink-0">
+                                ${item.rank}
+                            </span>
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-slate-900 text-lg group-hover:text-udn-blue transition truncate">${item.name}</h4>
+                                <p class="text-base text-slate-500 truncate">作者：${item.author}</p>
+                            </div>
+                        </div>
+                        <span class="text-base text-amber-600 font-bold shrink-0 pl-1"><i class="fa-solid fa-fire text-xs mr-0.5"></i>${item.views}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchEditorialTab(0);
+            switchRankingTab('article');
+        });
+
+        function toggleDropdown(menuId, event) {
+            if (event) event.stopPropagation();
+            const targetMenu = document.getElementById(menuId);
+            const allMenus = ['userMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu', 'searchMenu'];
+            
+            allMenus.forEach(id => {
+                if (id !== menuId) {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('hidden');
+                }
+            });
+
+            if (targetMenu) {
+                targetMenu.classList.toggle('hidden');
+            }
+        }
+
+        // Support Keyboard ESC to dismiss active dropdowns
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                ['userMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu', 'searchMenu'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('hidden');
+                });
+            }
+        });
+
+        // Close all dropdowns when clicking outside
+        document.addEventListener('click', () => {
+            const allMenus = ['userMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu', 'searchMenu'];
+            allMenus.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && !el.classList.contains('hidden')) {
+                    el.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
