@@ -226,13 +226,8 @@
                     <div class="h-4 w-[1px] bg-slate-700 mx-1 shrink-0"></div>
 
                     <!-- Direct Navigation Links -->
-                    <a href="#" class="px-3 py-2 hover:bg-slate-800 rounded-lg transition hover:text-amber-300 shrink-0">電小二專區</a>
                     <a href="#" class="px-3 py-2 hover:bg-slate-800 rounded-lg transition hover:text-amber-300 shrink-0">網路城邦辦公室</a>
                     <a href="#" class="px-3 py-2 hover:bg-slate-800 rounded-lg transition hover:text-amber-300 shrink-0">常見問題</a>
-                </div>
-
-                <div class="text-xs text-slate-400 font-normal hidden lg:block shrink-0 pl-2">
-                    <i class="fa-solid fa-heart text-red-500 mr-1"></i> 熱門：#宜蘭秘境 #澎湃海鮮
                 </div>
             </div>
         </div>
@@ -838,14 +833,14 @@
                     </div>
 
                     <!-- Ranking Tab Buttons Bar -->
-                    <div class="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl text-sm sm:text-base font-bold w-full">
-                        <button id="tab-rank-article" onclick="switchRankingTab('article')" class="flex-1 py-1.5 px-2 rounded-lg transition text-center cursor-pointer">
+                    <div class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl text-xs sm:text-sm font-bold w-full overflow-x-auto no-scrollbar">
+                        <button id="tab-rank-article" onclick="switchRankingTab('article')" class="flex-1 py-1.5 px-1 rounded-lg transition text-center cursor-pointer whitespace-nowrap">
                             文章排行榜
                         </button>
-                        <button id="tab-rank-blog" onclick="switchRankingTab('blog')" class="flex-1 py-1.5 px-2 rounded-lg transition text-center cursor-pointer">
+                        <button id="tab-rank-blog" onclick="switchRankingTab('blog')" class="flex-1 py-1.5 px-1 rounded-lg transition text-center cursor-pointer whitespace-nowrap">
                             部落格排行榜
                         </button>
-                        <button id="tab-rank-photo" onclick="switchRankingTab('photo')" class="flex-1 py-1.5 px-2 rounded-lg transition text-center cursor-pointer">
+                        <button id="tab-rank-photo" onclick="switchRankingTab('photo')" class="flex-1 py-1.5 px-1 rounded-lg transition text-center cursor-pointer whitespace-nowrap">
                             相片排行榜
                         </button>
                     </div>
@@ -1020,8 +1015,8 @@
 
             if (!rankingList) return;
 
-            const activeClass = "flex-1 py-1.5 px-2 rounded-lg bg-udn-blue text-white shadow-sm font-bold transition text-center cursor-pointer text-sm sm:text-base";
-            const inactiveClass = "flex-1 py-1.5 px-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold transition text-center cursor-pointer text-sm sm:text-base";
+            const activeClass = "flex-1 py-1.5 px-1 rounded-lg bg-udn-blue text-white shadow-sm font-bold transition text-center cursor-pointer text-xs sm:text-sm whitespace-nowrap";
+            const inactiveClass = "flex-1 py-1.5 px-1 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold transition text-center cursor-pointer text-xs sm:text-sm whitespace-nowrap";
 
             if (articleBtn) articleBtn.className = (type === 'article') ? activeClass : inactiveClass;
             if (blogBtn) blogBtn.className = (type === 'blog') ? activeClass : inactiveClass;
@@ -1029,47 +1024,47 @@
 
             if (type === 'blog') {
                 rankingList.innerHTML = blogRankings.map(item => `
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
-                        <div class="flex items-center space-x-3 overflow-hidden">
-                            <span class="w-7 h-7 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-sm font-black flex items-center justify-center shrink-0">
+                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
+                        <div class="flex items-center space-x-2.5 overflow-hidden min-w-0">
+                            <span class="w-6.5 h-6.5 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-xs font-black flex items-center justify-center shrink-0">
                                 ${item.rank}
                             </span>
-                            <div class="overflow-hidden">
-                                <h4 class="font-bold text-slate-900 text-lg group-hover:text-udn-blue transition truncate">${item.blogName}</h4>
-                                <p class="text-base text-slate-500 truncate">格主：${item.bloggerName}</p>
+                            <div class="overflow-hidden min-w-0">
+                                <h4 class="font-bold text-slate-900 text-sm sm:text-base group-hover:text-udn-blue transition truncate whitespace-nowrap">${item.blogName}</h4>
+                                <p class="text-xs sm:text-sm text-slate-500 truncate whitespace-nowrap">格主：${item.bloggerName}</p>
                             </div>
                         </div>
-                        <span class="text-base text-slate-400 font-mono shrink-0 pl-1">${item.views} 瀏覽</span>
+                        <span class="text-xs sm:text-sm text-slate-400 font-mono shrink-0 pl-1.5 whitespace-nowrap">${item.views} 瀏覽</span>
                     </div>
                 `).join('');
             } else if (type === 'photo') {
                 rankingList.innerHTML = photoRankings.map(item => `
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
-                        <div class="flex items-center space-x-3 overflow-hidden">
-                            <span class="w-7 h-7 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-sm font-black flex items-center justify-center shrink-0">
+                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
+                        <div class="flex items-center space-x-2.5 overflow-hidden min-w-0">
+                            <span class="w-6.5 h-6.5 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-xs font-black flex items-center justify-center shrink-0">
                                 ${item.rank}
                             </span>
-                            <div class="overflow-hidden">
-                                <h4 class="font-bold text-slate-900 text-lg group-hover:text-udn-blue transition truncate">${item.name}</h4>
-                                <p class="text-base text-slate-500 truncate">作者：${item.author}</p>
+                            <div class="overflow-hidden min-w-0">
+                                <h4 class="font-bold text-slate-900 text-sm sm:text-base group-hover:text-udn-blue transition truncate whitespace-nowrap">${item.name}</h4>
+                                <p class="text-xs sm:text-sm text-slate-500 truncate whitespace-nowrap">作者：${item.author}</p>
                             </div>
                         </div>
-                        <span class="text-base text-amber-600 font-bold shrink-0 pl-1"><i class="fa-solid fa-heart text-xs mr-0.5"></i>${item.views}</span>
+                        <span class="text-xs sm:text-sm text-amber-600 font-bold shrink-0 pl-1.5 whitespace-nowrap"><i class="fa-solid fa-heart text-xs mr-0.5"></i>${item.views}</span>
                     </div>
                 `).join('');
             } else {
                 rankingList.innerHTML = articleRankings.map(item => `
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
-                        <div class="flex items-center space-x-3 overflow-hidden">
-                            <span class="w-7 h-7 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-sm font-black flex items-center justify-center shrink-0">
+                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between hover:bg-slate-100/80 transition group">
+                        <div class="flex items-center space-x-2.5 overflow-hidden min-w-0">
+                            <span class="w-6.5 h-6.5 rounded-md ${item.rank <= 3 ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'} text-xs font-black flex items-center justify-center shrink-0">
                                 ${item.rank}
                             </span>
-                            <div class="overflow-hidden">
-                                <h4 class="font-bold text-slate-900 text-lg group-hover:text-udn-blue transition truncate">${item.name}</h4>
-                                <p class="text-base text-slate-500 truncate">作者：${item.author}</p>
+                            <div class="overflow-hidden min-w-0">
+                                <h4 class="font-bold text-slate-900 text-sm sm:text-base group-hover:text-udn-blue transition truncate whitespace-nowrap">${item.name}</h4>
+                                <p class="text-xs sm:text-sm text-slate-500 truncate whitespace-nowrap">作者：${item.author}</p>
                             </div>
                         </div>
-                        <span class="text-base text-amber-600 font-bold shrink-0 pl-1"><i class="fa-solid fa-fire text-xs mr-0.5"></i>${item.views}</span>
+                        <span class="text-xs sm:text-sm text-amber-600 font-bold shrink-0 pl-1.5 whitespace-nowrap"><i class="fa-solid fa-fire text-xs mr-0.5"></i>${item.views}</span>
                     </div>
                 `).join('');
             }
