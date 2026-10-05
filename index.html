@@ -147,9 +147,9 @@
                     </div>
                 </div>
 
-                <!-- Search Dropdown Trigger -->
-                <div class="relative">
-                    <button type="button" onclick="toggleDropdown('searchMenu', event)" class="hover:text-udn-blue hover:bg-slate-100 transition p-2 rounded-xl flex items-center justify-center focus:outline-none" title="搜尋">
+                <!-- Search Overlay Trigger -->
+                <div>
+                    <button type="button" onclick="toggleSearchOverlay(event)" class="hover:text-udn-blue hover:bg-slate-100 transition p-2 rounded-xl flex items-center justify-center focus:outline-none" title="搜尋">
                         <svg class="w-6 h-6 text-slate-600 hover:text-udn-blue transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="3" y1="7" x2="10" y2="7"></line>
                             <line x1="3" y1="12" x2="8" y2="12"></line>
@@ -158,16 +158,6 @@
                             <line x1="18" y1="14" x2="21" y2="17"></line>
                         </svg>
                     </button>
-
-                    <!-- Search Input Popup Menu -->
-                    <div id="searchMenu" class="hidden absolute right-0 top-full mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 p-3 z-50 animate-fadeIn">
-                        <form action="#" method="GET" class="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-white focus-within:ring-2 focus-within:ring-udn-orange/50 transition">
-                            <input type="text" name="q" placeholder="請輸入關鍵字搜尋..." class="w-full px-3 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none font-medium">
-                            <button type="submit" class="bg-[#F39800] hover:bg-amber-600 text-white font-bold px-4 py-2 text-xs sm:text-sm flex items-center gap-1 shrink-0 transition">
-                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                            </button>
-                        </form>
-                    </div>
                 </div>
 
             </div>
@@ -993,6 +983,181 @@
         </div>
     </footer>
 
+    <!-- Fullscreen Search & Sitemap Overlay -->
+    <div id="searchOverlay" class="hidden fixed inset-0 z-50 bg-[#F9F9F9] overflow-y-auto flex-col justify-between p-6 sm:p-10 animate-fadeIn">
+        <!-- Close Button -->
+        <div class="flex justify-end">
+            <button type="button" onclick="toggleSearchOverlay(event)" class="text-slate-400 hover:text-slate-700 text-3xl font-light p-2 focus:outline-none transition" title="關閉">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Central Search Bar Input Section -->
+        <div class="max-w-2xl mx-auto w-full my-4 sm:my-8">
+            <form action="#" method="GET" class="relative flex items-center border-b-2 border-slate-300 focus-within:border-udn-orange pb-2 transition">
+                <input type="text" name="q" placeholder="請輸入關鍵字" class="w-full bg-transparent text-slate-800 text-lg sm:text-2xl placeholder-slate-400 focus:outline-none font-medium pr-10">
+                <button type="submit" class="absolute right-1 text-[#F39800] hover:text-amber-600 text-2xl transition" title="搜尋">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Full Product List (全產品速覽) Grid Section -->
+        <div class="max-w-7xl mx-auto w-full mb-8">
+            <h3 class="text-slate-800 font-bold text-sm sm:text-base mb-6 border-b border-slate-200 pb-2">全產品速覽</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-6 text-xs sm:text-sm">
+                
+                <!-- 新聞評論 -->
+                <div class="space-y-2">
+                    <div class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-[#D32F2F] rounded-full inline-block"></span>新聞評論
+                    </div>
+                    <ul class="space-y-2 text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-udn-blue transition">聯合新聞網</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">河好如初</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">陽光行動</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯合報數位版</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯合70</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">轉角國際</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">倡議家</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">世界日報</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">新聞話題</a></li>
+                    </ul>
+                </div>
+
+                <!-- 服務 -->
+                <div class="space-y-2">
+                    <div class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-[#D32F2F] rounded-full inline-block"></span>服務
+                    </div>
+                    <ul class="space-y-2 text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-udn-blue transition">會員中心</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">U利點數</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">我的新聞</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">歷史新聞</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">活動專區</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">udn粉絲團</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">udn line 好友</a></li>
+                    </ul>
+                </div>
+
+                <!-- 股市理財 -->
+                <div class="space-y-2">
+                    <div class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-[#D32F2F] rounded-full inline-block"></span>股市理財
+                    </div>
+                    <ul class="space-y-2 text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-udn-blue transition">經濟日報網</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">房地產</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">中經社</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">樂透</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">發票</a></li>
+                    </ul>
+                </div>
+
+                <!-- 生活娛樂 -->
+                <div class="space-y-2">
+                    <div class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-[#D32F2F] rounded-full inline-block"></span>生活娛樂
+                    </div>
+                    <ul class="space-y-2 text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-udn-blue transition">噓！星聞</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">優人物</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">udnSTYLE</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">500輯</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">遊戲角落</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">發燒車訊</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">元氣網</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">橘世代</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">寵物部落</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">科技玩家</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">女子漾</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">報時光</a></li>
+                    </ul>
+                </div>
+
+                <!-- 運動 -->
+                <div class="space-y-2">
+                    <div class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-[#D32F2F] rounded-full inline-block"></span>運動
+                    </div>
+                    <ul class="space-y-2 text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-udn-blue transition">udn NBA</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">野球夢田</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">HBL</a></li>
+                    </ul>
+                </div>
+
+                <!-- 閱讀創作 -->
+                <div class="space-y-2">
+                    <div class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-[#D32F2F] rounded-full inline-block"></span>閱讀創作
+                    </div>
+                    <ul class="space-y-2 text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-udn-blue transition">琅琅悅讀</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">琅琅書店</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">琅琅原創</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">一刻鯨選</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">U好學</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯副70</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">udn部落格</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯合文學</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯經出版</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯文雜誌</a></li>
+                    </ul>
+                </div>
+
+                <!-- 文創購物 -->
+                <div class="space-y-2">
+                    <div class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-[#D32F2F] rounded-full inline-block"></span>文創購物
+                    </div>
+                    <ul class="space-y-2 text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-udn-blue transition">數位文創</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">IP 授權</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">瘋活動</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">售票網</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">時光商號</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">時光自造所</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">品牌故事館</a></li>
+                    </ul>
+                </div>
+
+                <!-- 更多產品 -->
+                <div class="space-y-2">
+                    <div class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-[#D32F2F] rounded-full inline-block"></span>更多產品
+                    </div>
+                    <ul class="space-y-2 text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-udn-blue transition">聯合知識庫</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯合電子報</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯合影音網</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">聯合學苑</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">有行旅</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">APP行動網</a></li>
+                        <li><a href="#" class="hover:text-udn-blue transition">關於我們</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer in Overlay -->
+        <div class="pt-4 border-t border-slate-200 text-center space-y-2.5 text-xs text-slate-500">
+            <div class="flex flex-wrap items-center justify-center gap-3 text-slate-400">
+                <a href="#" class="hover:text-slate-600 transition text-sm"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-slate-600 transition text-sm"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-slate-600 transition text-sm"><i class="fa-brands fa-youtube"></i></a>
+                <form action="#" class="inline-flex items-center gap-1 ml-2">
+                    <input type="email" placeholder="輸入Email訂購電子報" class="px-2.5 py-1 text-xs border border-slate-300 rounded focus:outline-none bg-white">
+                    <button type="submit" class="bg-slate-500 hover:bg-slate-600 text-white text-xs px-2.5 py-1 rounded transition">訂閱</button>
+                </form>
+            </div>
+            <p class="font-medium text-slate-600 hover:text-slate-900 transition cursor-pointer">刊登廣告 │ FAQ．客服 │ 新聞授權 │ 服務條款．著作權．隱私權聲明 │ 聯合報系 │ 訂報紙 │ 關於我們 │ 網站總覽</p>
+            <p class="text-[11px] text-slate-400">聯合線上公司 著作權所有 ©2026</p>
+        </div>
+    </div>
+
     <script>
         const editorialTopics = [
             {
@@ -1174,10 +1339,26 @@
             switchRankingTab('article');
         });
 
+        function toggleSearchOverlay(event) {
+            if (event) event.stopPropagation();
+            const overlay = document.getElementById('searchOverlay');
+            if (overlay) {
+                if (overlay.classList.contains('hidden')) {
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
         function toggleDropdown(menuId, event) {
             if (event) event.stopPropagation();
             const targetMenu = document.getElementById(menuId);
-            const allMenus = ['userMenu', 'themeBlogMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu', 'searchMenu'];
+            const allMenus = ['userMenu', 'themeBlogMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu'];
             
             allMenus.forEach(id => {
                 if (id !== menuId) {
@@ -1191,19 +1372,24 @@
             }
         }
 
-        // Support Keyboard ESC to dismiss active dropdowns
+        // Support Keyboard ESC to dismiss active dropdowns and search overlay
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                ['userMenu', 'themeBlogMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu', 'searchMenu'].forEach(id => {
+                ['userMenu', 'themeBlogMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.classList.add('hidden');
                 });
+
+                const overlay = document.getElementById('searchOverlay');
+                if (overlay && !overlay.classList.contains('hidden')) {
+                    toggleSearchOverlay();
+                }
             }
         });
 
         // Close all dropdowns when clicking outside
         document.addEventListener('click', () => {
-            const allMenus = ['userMenu', 'themeBlogMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu', 'searchMenu'];
+            const allMenus = ['userMenu', 'themeBlogMenu', 'rankArticleMenu', 'rankBlogMenu', 'rankPhotoMenu'];
             allMenus.forEach(id => {
                 const el = document.getElementById(id);
                 if (el && !el.classList.contains('hidden')) {
